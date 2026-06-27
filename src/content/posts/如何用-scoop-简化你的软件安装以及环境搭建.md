@@ -125,4 +125,3 @@ scoop list                 # 查看已安装的软件
 
 scoop cleanup *            # 清理旧版本以及缓存
 ```
-

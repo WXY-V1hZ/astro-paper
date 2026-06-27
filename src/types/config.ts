@@ -44,6 +44,8 @@ interface FeaturesConfig {
   dynamicOgImage?: boolean;
   /** Show the /archives page and link it in nav. Defaults to true. */
   showArchives?: boolean;
+  /** Show archives icon in navigation bar. Defaults to true. */
+  showNavArchivesIcon?: boolean;
   /** Show back button on post detail pages. Defaults to true. */
   showBackButton?: boolean;
   /** "Edit page" link shown on post detail pages. */

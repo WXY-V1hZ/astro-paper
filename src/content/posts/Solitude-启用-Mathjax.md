@@ -39,8 +39,9 @@ markdown:
     - markdown-it-mathjax3
   anchors:
     level: 2
-    collisionSuffix: ''
+    collisionSuffix: ""
 ```
+
 #### 查看效果
 
 运行 `hexo s` 查看公式渲染效果

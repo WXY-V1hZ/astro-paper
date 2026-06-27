@@ -102,7 +102,7 @@ hexo s
 
 ### 将 Git 和自己的 Github 账号关联
 
-xxxxxxxxxx3 1extends:2  head:3    - <link rel="stylesheet" href="/css/custom.css">yml
+xxxxxxxxxx3 1extends:2 head:3   - <link rel="stylesheet" href="/css/custom.css">yml
 
 ```bash
 git config --global user.name "Your Name"

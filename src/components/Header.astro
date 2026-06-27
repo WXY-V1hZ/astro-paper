@@ -76,8 +76,8 @@ const isActive = (path: string) => {
       >
         <li class="col-span-2">
           <a
-            href={getRelativeLocaleUrl(locale, "posts")}
-            class:list={{ "active-nav": isActive("/posts") }}
+            href={getRelativeLocaleUrl(locale, "archives")}
+            class:list={{ "active-nav": isActive("/archives") }}
           >
             {t.nav.posts}
           </a>
@@ -99,7 +99,7 @@ const isActive = (path: string) => {
           </a>
         </li>
         {
-          features.showArchives && (
+          features.showArchives && features.showNavArchivesIcon !== false && (
             <li class="col-span-2">
               <LinkButton
                 href={getRelativeLocaleUrl(locale, "archives")}

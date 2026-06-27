@@ -4,7 +4,7 @@ export default {
   dateFormat: "YYYY 年 M 月 D 日",
   nav: {
     home: "首页",
-    posts: "文章",
+    posts: "归档",
     tags: "标签",
     about: "关于",
     archives: "归档",

@@ -72,7 +72,7 @@ git bisect bad            # 这个版本有问题
 问题出在 `Card.astro` 组件中的一行代码：
 
 ```astro
-<Heading transition:name={toTransitionName(title)}>
+<Heading transition:name={toTransitionName(title)} />
 ```
 
 Astro 的 View Transitions 用 `transition:name` 来匹配页面之间的元素，实现平滑动画。当你点击文章列表中的卡片时，浏览器会找详情页里**同样 name 的元素**，然后在这两个元素之间做过渡。

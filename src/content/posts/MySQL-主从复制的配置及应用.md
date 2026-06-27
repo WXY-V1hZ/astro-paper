@@ -94,7 +94,7 @@ mysql> show master status;
 
 **第一步**，修改 MySQL 配置文件
 
-我的从库是 Windows 下的，所以配置文件位于 `/path/to/mysql/my.ini` 
+我的从库是 Windows 下的，所以配置文件位于 `/path/to/mysql/my.ini`
 
 在 `[mysql]` 字段下添加以下内容（此处的 `server-id` 必须和主库中配置的不同）
 
@@ -110,7 +110,7 @@ server-id=101
 
 ```sql
 # MySQL 8.0+
-CHANGE REPLICATION SOURCE TO 
+CHANGE REPLICATION SOURCE TO
 SOURCE_HOST='172.22.160.2',
 SOURCE_USER='v1hz-slave',
 SOURCE_PASSWORD='nenood1091',
@@ -120,7 +120,7 @@ SOURCE_LOG_POS=1414;
 START REPLICA;
 
 # MySQL 5.x
-CHANGE MASTER TO 
+CHANGE MASTER TO
 MASTER_HOST='172.22.160.2',
 MASTER_USER='v1hz-slave',
 MASTER_PASSWORD='nenood1091',
@@ -223,7 +223,7 @@ FLUSH PRIVILEGES;
 ```sql
 STOP REPLICA;
 
-CHANGE REPLICATION SOURCE TO 
+CHANGE REPLICATION SOURCE TO
 SOURCE_HOST='172.22.160.2',
 SOURCE_USER='v1hz-slave',
 SOURCE_PASSWORD='nenood1091',
@@ -267,8 +267,7 @@ CREATE DATABASE test
 ```yml
 shardingsphere:
   datasource:
-    names:
-      master, slave # 数据源的名称，与下面的配置对应
+    names: master, slave # 数据源的名称，与下面的配置对应
     master: # master 数据源的相关配置
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver

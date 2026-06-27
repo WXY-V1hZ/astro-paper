@@ -55,7 +55,7 @@ tags: ["Swagger", "Nginx 前端部署"]
 @EnableSwagger2 // 两个需要添加的注解
 @EnableKnife4j
 public class WebMvcConfig implements WevMvcConfiguer {
-    
+
     @Bean // 固定写法，需要配置一下 controller 包的位置（因为生成接口需要扫描 controller 包）
     public Docket createRestApi() {
         return new Docket (DocumentationType.SWAGGER_2)
@@ -65,7 +65,7 @@ public class WebMvcConfig implements WevMvcConfiguer {
             .paths(PathSelectors.any())
             .build();
     }
-    
+
     // 用于给 createRestApi 方法提供接口文档的描述
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -108,7 +108,7 @@ public class LoginCheckFilter implements Filter {
                 "/webjars/**",
                 "v2/api-docs",
         };
-        
+
         // ...
 }
 ```
@@ -140,7 +140,7 @@ public class LoginCheckFilter implements Filter {
 server {
     listen 81;
     server_name localhost;
-    
+
     location / {
         root /var/www/html/dist;
         index index.html;

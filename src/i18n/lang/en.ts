@@ -4,7 +4,7 @@ export default {
   dateFormat: "D MMM, YYYY",
   nav: {
     home: "Home",
-    posts: "Posts",
+    posts: "Archives",
     tags: "Tags",
     about: "About",
     archives: "Archives",
