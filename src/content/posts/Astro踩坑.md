@@ -6,8 +6,6 @@ slug: astro-view-transitions-bug-hunt
 tags: ["Astro", "Debug"]
 ---
 
-测试
-
 ## 现象
 
 新增几篇操作系统笔记后，发现页面切换过渡动画消失了。
