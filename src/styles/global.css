@@ -36,3 +36,8 @@
 :target {
   scroll-margin-block: 1rem;
 }
+
+/* 确保 KaTeX 公式颜色与正文一致，不受 View Transitions 影响 */
+.katex {
+  color: var(--foreground);
+}

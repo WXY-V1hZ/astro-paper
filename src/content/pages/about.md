@@ -1,39 +1,28 @@
 ---
-title: "About"
-description: "A bit about me and this blog."
+title: "关于"
+description: "关于我和这个博客"
 ---
 
-中文测试中文测试
+## 👋 关于我
 
-AstroPaper is a minimal, accessible and SEO-friendly blog theme built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
+我是 **V1hZ**，一个对技术充满好奇的开发者。
 
-![Astro Paper](@/assets/images/astropaper-og.jpg)
+从大一期末的数学分析复习笔记开始，养成了用博客记录学习过程的习惯。这个博客最初搭建于 Hexo，如今迁移到了 AstroPaper。
 
-AstroPaper provides a solid foundation for blogs, or even portfolios\_ with full markdown support, built-in dark mode, and a clean layout that works out-of-the-box.
+## 📚 这个博客写什么
 
-The blog posts in this theme also serve as guides, docs or example articles\_ making AstroPaper a flexible starting point for your next content-driven site.
+博客内容主要分为几个方向：
 
-## Features
+**后端开发** —— Java、MySQL、Redis、Kafka、操作系统……在学习过程中整理的知识点和面试题笔记。
 
-AstroPaper comes with a set of useful features that make content publishing easy and effective:
+**学习笔记** —— 离散数学、数学分析、大学物理……“学完容易忘，记下来方便翻”。
 
-- SEO-friendly
-- Fast performance
-- Light & dark mode
-- Highly customizable
-- Organizable blog posts
-- Responsive & accessible
-- Static search with [PageFind](https://pagefind.app/)
-- Automatic social image generation
+**折腾记录** —— 从 Hexo 博客搭建、PicGo 图床、Nginx 配置到字体压缩，各种踩坑和填坑的记录。
 
-and so much more.
+## 🔧 技术栈
 
-## Show your support
+这个博客目前基于 [Astro](https://astro.build/) + [AstroPaper](https://github.com/satnaing/astro-paper) 主题构建，使用 KaTeX 渲染数学公式，图片托管在 GitHub 图床。
 
-If you like [AstroPaper](https://github.com/satnaing/astro-paper), consider giving it a star ⭐️.
+## 📬 联系我
 
-Found a bug 🐛 or have an improvement ✨ in mind? Feel free to open an [issue](https://github.com/satnaing/astro-paper/issues), submit a [pull request](https://github.com/satnaing/astro-paper/pulls) or start a [discussion](https://github.com/satnaing/astro-paper/discussions).
-
-If you find this theme helpful, you can also [sponsor me on GitHub](https://github.com/sponsors/satnaing) or [buy me a coffee](https://buymeacoffee.com/satnaing) to show your support — every penny counts.
-
-Kyay zuu! 🙏🏼
+- GitHub：[WXY-V1hZ](https://github.com/WXY-V1hZ)

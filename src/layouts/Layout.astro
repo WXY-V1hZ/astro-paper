@@ -50,6 +50,12 @@ const rssHref = getRelativeLocaleUrl(
       preload={[{ subset: "latin", weight: 400, style: "normal" }]}
     />
 
+    <!-- KaTeX CSS for LaTeX formula rendering -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+
     <!-- Primary meta -->
     <title>{title}</title>
     <meta name="title" content={title} />
