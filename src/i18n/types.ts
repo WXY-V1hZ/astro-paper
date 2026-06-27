@@ -1,4 +1,5 @@
 export interface UIStrings {
+  dateFormat: string;
   nav: {
     home: string;
     posts: string;
@@ -24,6 +25,7 @@ export interface UIStrings {
     prev: string;
     next: string;
     page: string;
+    pageSuffix?: string;
   };
   home: {
     socialLinks: string;

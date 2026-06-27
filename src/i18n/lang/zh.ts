@@ -1,6 +1,7 @@
 import type { UIStrings } from "../types";
 
 export default {
+  dateFormat: "YYYY 年 M 月 D 日",
   nav: {
     home: "首页",
     posts: "文章",
@@ -25,7 +26,8 @@ export default {
   pagination: {
     prev: "上一页",
     next: "下一页",
-    page: "页",
+    page: "第",
+    pageSuffix: "页",
   },
   home: {
     socialLinks: "社交链接",

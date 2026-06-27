@@ -1,6 +1,7 @@
 import type { UIStrings } from "../types";
 
 export default {
+  dateFormat: "D MMM, YYYY",
   nav: {
     home: "Home",
     posts: "Posts",
@@ -26,6 +27,7 @@ export default {
     prev: "Prev",
     next: "Next",
     page: "Page",
+    pageSuffix: "",
   },
   home: {
     socialLinks: "Social Links",
