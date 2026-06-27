@@ -2,6 +2,7 @@
 title: 前后端分离与 Swagger 接口文档
 description: 前后端分离开发模式与 Swagger 接口文档的使用
 pubDatetime: 2025-02-12
+slug: swagger-api-documentation
 tags: ["Swagger", "Nginx 前端部署"]
 ---
 

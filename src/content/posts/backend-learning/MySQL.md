@@ -2,6 +2,7 @@
 title: MySQL 架构
 description: MySQL 整体架构与核心组件整理，包含连接器、查询缓存、优化器、执行引擎等
 pubDatetime: 2026-03-03
+slug: mysql-architecture
 tags: ["MySQL", "后端"]
 ---
 

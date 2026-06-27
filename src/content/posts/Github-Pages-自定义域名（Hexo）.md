@@ -2,6 +2,7 @@
 title: Github Pages 自定义域名（Hexo）
 description: 为 GitHub Pages 配置自定义域名的完整步骤
 pubDatetime: 2025-02-12
+slug: github-pages-custom-domain
 tags: ["域名"]
 ---
 

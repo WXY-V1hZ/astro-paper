@@ -2,6 +2,7 @@
 title: Solitude 启用 Mathjax
 description: 在 Hexo Solitude 主题中启用 Mathjax 的解决方法
 pubDatetime: 2025-02-02
+slug: solitude-mathjax-setup
 tags: ["mathjax"]
 ---
 

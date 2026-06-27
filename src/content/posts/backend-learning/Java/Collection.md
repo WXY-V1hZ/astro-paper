@@ -2,6 +2,7 @@
 title: Java 集合
 description: Java 集合框架的知识点整理，包含 List、Set、Map 等核心接口与实现
 pubDatetime: 2026-03-21
+slug: java-collection
 tags: ["Java", "后端"]
 ---
 

@@ -2,6 +2,7 @@
 title: 搭建 PicGo 图床并在 Typora 中使用
 description: 搭建 PicGo 图床并在 Typora 中使用的详细教程
 pubDatetime: 2025-02-12
+slug: picgo-typora-image-hosting
 tags: ["图床", "写作"]
 ---
 

@@ -2,6 +2,7 @@
 title: Kafka 入门
 description: Kafka 核心概念整理，包含 Topic、Partition、Broker、Consumer Group 等
 pubDatetime: 2026-03-29
+slug: kafka-introduction
 tags: ["Kafka", "后端"]
 ---
 

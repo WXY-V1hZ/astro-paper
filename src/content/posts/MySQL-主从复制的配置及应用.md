@@ -2,6 +2,7 @@
 title: MySQL 主从复制的配置及应用
 description: MySQL 主从复制的配置方法及其应用场景
 pubDatetime: 2025-02-10
+slug: mysql-master-slave-replication
 tags: ["MySQL", "主从复制"]
 ---
 

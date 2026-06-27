@@ -2,6 +2,7 @@
 title: JVM 内存模型
 description: JVM 内存分区、垃圾回收、类加载机制等知识点整理
 pubDatetime: 2026-03-23
+slug: jvm-memory-model
 tags: ["Java", "后端"]
 ---
 

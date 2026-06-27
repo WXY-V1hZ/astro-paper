@@ -2,6 +2,7 @@
 title: 如何用 scoop 简化你的软件安装以及环境搭建
 description: 使用 scoop 包管理器简化 Windows 软件安装与环境搭建
 pubDatetime: 2025-02-13
+slug: scoop-package-manager
 tags: ["scoop"]
 ---
 

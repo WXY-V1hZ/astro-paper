@@ -2,6 +2,7 @@
 title: 从零开始的 Hexo 博客搭建
 description: 一个 Hexo 博客的搭建教程，顺便记录一路折腾过去的东西
 pubDatetime: 2025-02-13
+slug: hexo-blog-setup
 tags: ["教程"]
 ---
 

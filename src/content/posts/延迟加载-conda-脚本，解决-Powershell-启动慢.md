@@ -2,6 +2,7 @@
 title: 延迟加载 conda 脚本，解决 Powershell 启动慢
 description: 解决 Powershell 因加载 conda 脚本而启动慢的问题
 pubDatetime: 2025-02-01
+slug: lazy-load-conda-powershell
 tags: ["PowerShell", "优化"]
 ---
 ## 遇到的问题

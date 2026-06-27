@@ -2,6 +2,7 @@
 title: MySQL 为什么使用 B+ 树而不是跳表？
 description: 从 B+ 树和跳表的插入、删除、查询等操作对比，分析 MySQL 选择 B+ 树的原因
 pubDatetime: 2026-03-10
+slug: mysql-b-plus-tree-vs-skip-list
 tags: ["MySQL", "后端"]
 ---
 

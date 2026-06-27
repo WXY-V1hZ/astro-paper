@@ -2,6 +2,7 @@
 title: ElasticSearch 架构
 description: ElasticSearch 核心架构笔记，包含 Segment、倒排索引、集群、分片等概念
 pubDatetime: 2026-03-03
+slug: elasticsearch-architecture
 tags: ["ElasticSearch", "后端"]
 ---
 

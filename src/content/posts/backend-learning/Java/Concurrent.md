@@ -2,6 +2,7 @@
 title: Java 并发
 description: Java 并发编程知识点整理，包含 JMM、线程安全、锁机制等核心概念
 pubDatetime: 2026-03-23
+slug: java-concurrency
 tags: ["Java", "后端"]
 ---
 

@@ -2,6 +2,7 @@
 title: 使用 fonttools-pyftsubset 对 ttf 格式字体进行精简并压缩为 woff2 格式
 description: 使用 fonttools 对 ttf 字体进行精简并压缩为 woff2 格式
 pubDatetime: 2025-01-31
+slug: font-subset-woff2
 tags: ["字体压缩"]
 ---
 

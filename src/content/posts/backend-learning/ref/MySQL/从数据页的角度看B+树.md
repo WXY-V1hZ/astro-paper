@@ -2,6 +2,7 @@
 title: 从数据页的角度看 B+ 树
 description: 从 MySQL 数据页结构出发，理解 B+ 树的存储原理与查询机制
 pubDatetime: 2026-03-08
+slug: mysql-b-plus-tree-data-page
 tags: ["MySQL", "后端"]
 ---
 

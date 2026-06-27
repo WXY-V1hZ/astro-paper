@@ -2,6 +2,7 @@
 title: 开启 MySQL 的远程连接权限
 description: 开启 MySQL 远程连接权限的配置指南
 pubDatetime: 2025-01-31
+slug: mysql-remote-access
 tags: ["MySQL远程连接", "Debug"]
 ---
 

@@ -2,6 +2,7 @@
 title: Redis 持久化
 description: Redis 持久化机制整理，包含 AOF、RDB 以及混合持久化的原理与配置
 pubDatetime: 2026-03-28
+slug: redis-persistence
 tags: ["Redis", "后端"]
 ---
 

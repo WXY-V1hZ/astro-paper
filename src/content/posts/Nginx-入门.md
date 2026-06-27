@@ -2,6 +2,7 @@
 title: Nginx 入门
 description: Nginx 基础入门配置指南
 pubDatetime: 2025-02-11
+slug: nginx-introduction
 tags: ["Nginx"]
 ---
 

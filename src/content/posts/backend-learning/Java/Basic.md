@@ -2,6 +2,7 @@
 title: Java 基础
 description: Java 面试基础知识整理，包含面向对象、包装类、String、反射等核心概念
 pubDatetime: 2026-03-21
+slug: java-basics
 tags: ["Java", "后端"]
 ---
 

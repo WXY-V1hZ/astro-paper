@@ -2,6 +2,7 @@
 title: MySQL 查询慢的原因
 description: MySQL 查询慢的常见原因分析，包含索引、连接数、BufferPool、慢查询日志等
 pubDatetime: 2026-03-10
+slug: mysql-slow-query-causes
 tags: ["MySQL", "后端"]
 ---
 
