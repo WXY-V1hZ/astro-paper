@@ -1,5 +1,5 @@
 ---
-title: Astro 踩坑以及 git bisect 的使用
+title: AstroPaper 踩坑(1) 以及 git bisect 的使用
 description: 两篇文章标题相同导致页面过渡动画无声消失，经过 git bisect 逐层排查最终定位的过程
 pubDatetime: 2026-06-28
 slug: astro-view-transitions-bug-hunt

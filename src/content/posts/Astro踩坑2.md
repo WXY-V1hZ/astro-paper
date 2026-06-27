@@ -1,5 +1,5 @@
 ---
-title: 开发环境正常但生产构建丢失文章？居然是时区在作祟...
+title: AstroPaper 踩坑(2)：开发环境正常但生产构建丢失文章？居然是时区在作祟...
 description: bun run dev 正常显示，但 bun run build 后文章不见了——排查发现是 pubDatetime 的时区问题
 pubDatetime: 2026-06-28
 slug: astro-build-timezone-bug
@@ -27,11 +27,11 @@ export function postFilter({ data }) {
 
 关键在最后一行：`import.meta.env.DEV || isPublishTimePassed`
 
-| 环境 | `import.meta.env.DEV` | 结果 |
-|---|---|---|
-| `bun run dev`（开发服务器） | `true` | **跳过时间检查**，文章直接显示 |
-| `bun run build`（生产构建） | `false` | 检查 `isPublishTimePassed`，时间没到就过滤掉 |
-| `bun run preview`（预览构建产物） | `false` | 直接展示构建结果，没生成就是没有 |
+| 环境                              | `import.meta.env.DEV` | 结果                                         |
+| --------------------------------- | --------------------- | -------------------------------------------- |
+| `bun run dev`（开发服务器）       | `true`                | **跳过时间检查**，文章直接显示               |
+| `bun run build`（生产构建）       | `false`               | 检查 `isPublishTimePassed`，时间没到就过滤掉 |
+| `bun run preview`（预览构建产物） | `false`               | 直接展示构建结果，没生成就是没有             |
 
 所以 `bun run dev` 能看见，是因为开发模式**绕过了时间检查**。问题一直存在，只是开发环境把它掩盖了。
 
@@ -49,6 +49,7 @@ export function postFilter({ data }) {
 ## 为什么其他文章不受影响？
 
 因为其他文章的日期都是过去的：
+
 - `pubDatetime: 2024-02-02` → 一年半以前，不管什么时区都早就过了
 - `pubDatetime: 2025-01-08` → 一年以前，同理
 
