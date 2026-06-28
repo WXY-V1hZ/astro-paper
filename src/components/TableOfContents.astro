@@ -20,7 +20,7 @@ const t = useTranslations(locale);
 
 <aside
   id="table-of-contents"
-  class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 overflow-y-auto rounded-xl p-4 shadow-sm backdrop-blur-sm xl:block"
+  class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 overflow-y-auto rounded-xl p-4 backdrop-blur-sm xl:block"
   aria-label={t.toc.label}
   style="left: calc(50% + 384px + 1.5rem)"
 >
@@ -30,7 +30,7 @@ const t = useTranslations(locale);
     <span class="text-foreground text-sm font-semibold">{t.toc.label}</span>
   </div>
 
-  <nav class="max-h-[calc(100vh-10rem)] overflow-y-auto" id="toc-body">
+  <nav id="toc-body">
     <ol class="m-0 list-none p-0" id="toc-list"></ol>
   </nav>
 </aside>
