@@ -1,17 +1,30 @@
 import type { APIRoute } from "astro";
 import satori from "satori";
 import sharp from "sharp";
-import { fontData, experimental_getFontFileURL } from "astro:assets";
+import {
+  fontData,
+  experimental_getFontFileURL,
+  type FontData,
+} from "astro:assets";
 import { getFontPathByWeight } from "@/utils/getFontPathByWeight";
 import config from "@/config";
 
+function cssVarToFontName(cssVar: string): string {
+  return cssVar
+    .replace(/^--font-/, "")
+    .split("-")
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 export const GET: APIRoute = async context => {
-  const fonts = fontData["--font-google-sans-code"];
+  const ogFont = config.site.ogFont;
+  const fonts = (fontData as Record<string, FontData[]>)[ogFont];
   const regularFontPath = getFontPathByWeight(fonts, 400);
   const boldFontPath = getFontPathByWeight(fonts, 700);
 
   if (regularFontPath === undefined || boldFontPath === undefined) {
-    throw new Error("Cannot find the font path.");
+    throw new Error(`Cannot find the font path for "${ogFont}".`);
   }
 
   const [regularData, boldData] = await Promise.all([
@@ -22,6 +35,8 @@ export const GET: APIRoute = async context => {
       res.arrayBuffer()
     ),
   ]);
+
+  const ogFontName = cssVarToFontName(ogFont);
 
   const svg = await satori(
     {
@@ -34,7 +49,7 @@ export const GET: APIRoute = async context => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "Google Sans Code",
+          fontFamily: ogFontName,
         },
         children: [
           {
@@ -145,13 +160,13 @@ export const GET: APIRoute = async context => {
       embedFont: true,
       fonts: [
         {
-          name: "Google Sans Code",
+          name: ogFontName,
           data: regularData,
           weight: 400,
           style: "normal",
         },
         {
-          name: "Google Sans Code",
+          name: ogFontName,
           data: boldData,
           weight: 700,
           style: "normal",

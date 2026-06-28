@@ -11,6 +11,7 @@ export default defineAstroPaperConfig({
     lang: "zh",
     timezone: "Asia/Shanghai",
     dir: "auto",
+    ogFont: "--font-noto-sans-sc",
     // googleVerification: undefined
   },
   posts: {
