@@ -7,7 +7,7 @@ export default defineAstroPaperConfig({
     description: "V1hZ's Blog",
     author: "V1hZ",
     profile: "https://github.com/WXY-V1hZ",
-    ogImage: "default-og.jpg",
+    // ogImage: "default-og.jpg",
     lang: "zh",
     timezone: "Asia/Shanghai",
     dir: "auto",
