@@ -70,4 +70,9 @@ export default {
     message: "Page Not Found",
     goHome: "Go back home",
   },
+  toc: {
+    label: "Table of Contents",
+    collapse: "Collapse",
+    expand: "Expand",
+  },
 } satisfies UIStrings;

@@ -1,0 +1,204 @@
+---
+/**
+ * TableOfContents.astro
+ *
+ * 文章侧边栏目录组件。
+ * 从 #article 中提取 h2/h3 标题构建目录树，支持滚动高亮和收起/展开。
+ * 用 position: fixed 固定在右侧，文章内容保持原居中布局。
+ *
+ * 使用方式（在文章详情页中）：
+ *   import TableOfContents from "@/components/TableOfContents.astro";
+ *   <TableOfContents />
+ */
+
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+---
+
+<aside
+  id="table-of-contents"
+  class="toc-root bg-background/80 border-border fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-[260px] overflow-y-auto rounded-xl border p-4 shadow-sm backdrop-blur-sm transition-all duration-300 ease-out xl:block"
+  aria-label={t.toc.label}
+  data-collapsed="false"
+  data-label-collapse={t.toc.collapse}
+  data-label-expand={t.toc.expand}
+  style="left: calc(50% + 384px + 1.5rem)"
+>
+  <div
+    class="border-border mb-2 flex items-center justify-between border-b pb-2"
+  >
+    <span class="text-foreground text-sm font-semibold">{t.toc.label}</span>
+    <button
+      id="toc-toggle-btn"
+      class="text-muted-foreground hover:text-foreground hover:bg-muted inline-flex size-6 cursor-pointer items-center justify-center rounded border-none bg-transparent p-0 transition-colors"
+      type="button"
+      aria-label={t.toc.collapse}
+    >
+      <svg
+        id="toc-toggle-icon"
+        class="transition-transform duration-300"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="max-h-[calc(100vh-10rem)] overflow-y-auto" id="toc-body">
+    <ol class="m-0 list-none p-0" id="toc-list"></ol>
+  </nav>
+</aside>
+
+<button
+  id="toc-reopen-btn"
+  class="border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted fixed top-1/2 right-3 z-40 hidden size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg border p-0 shadow-sm transition-all duration-300 hover:shadow-md xl:inline-flex"
+  type="button"
+  aria-label={t.toc.expand}
+  hidden
+>
+  <svg
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+</button>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    "use strict";
+
+    function buildTOC() {
+      const article = document.getElementById("article");
+      const tocList = document.getElementById("toc-list");
+      const tocRoot = document.getElementById("table-of-contents");
+      if (!article || !tocList || !tocRoot) return;
+
+      const headings = Array.from(article.querySelectorAll("h2, h3")).filter(
+        h => h.id
+      );
+
+      if (headings.length < 2) {
+        tocRoot.style.display = "none";
+        return;
+      }
+
+      tocList.innerHTML = "";
+
+      for (const heading of headings) {
+        const li = document.createElement("li");
+        li.className = "m-0 leading-[1.4]";
+        if (heading.tagName === "H3") {
+          li.style.paddingLeft = "1rem";
+        }
+
+        const a = document.createElement("a");
+        a.className =
+          "toc-link block px-2 py-[0.2rem] text-[0.8125rem] text-muted-foreground no-underline rounded overflow-hidden text-ellipsis whitespace-nowrap transition-colors hover:text-foreground hover:bg-muted";
+        a.href = "#" + heading.id;
+        a.textContent = heading.textContent.replace(/\s*#$/, "");
+
+        a.addEventListener("click", e => {
+          e.preventDefault();
+          const id = a.getAttribute("href").slice(1);
+          const target = document.getElementById(id);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+            history.pushState(null, "", "#" + id);
+          }
+        });
+
+        li.appendChild(a);
+        tocList.appendChild(li);
+      }
+    }
+
+    function initScrollSpy() {
+      const article = document.getElementById("article");
+      const tocList = document.getElementById("toc-list");
+      if (!article || !tocList) return;
+
+      const headings = Array.from(article.querySelectorAll("h2, h3")).filter(
+        h => h.id
+      );
+      if (!headings.length) return;
+
+      const observer = new IntersectionObserver(
+        entries => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              const prev = tocList.querySelector(".toc-link.active");
+              if (prev) prev.classList.remove("active");
+
+              const link = tocList.querySelector(
+                '.toc-link[href="#' + CSS.escape(entry.target.id) + '"]'
+              );
+              if (link) link.classList.add("active");
+            }
+          }
+        },
+        { rootMargin: "-80px 0px -70% 0px" }
+      );
+
+      for (const h of headings) observer.observe(h);
+    }
+
+    function initToggle() {
+      const tocRoot = document.getElementById("table-of-contents");
+      const toggleBtn = document.getElementById("toc-toggle-btn");
+      const reopenBtn = document.getElementById("toc-reopen-btn");
+      const toggleIcon = document.getElementById("toc-toggle-icon");
+      if (!tocRoot || !toggleBtn || !reopenBtn || !toggleIcon) return;
+
+      const collapseLabel = tocRoot.dataset.labelCollapse ?? "Collapse";
+      const expandLabel = tocRoot.dataset.labelExpand ?? "Expand";
+
+      function setCollapsed(collapsed) {
+        tocRoot.dataset.collapsed = collapsed ? "true" : "false";
+        reopenBtn.hidden = !collapsed;
+        toggleBtn.setAttribute(
+          "aria-label",
+          collapsed ? expandLabel : collapseLabel
+        );
+        toggleIcon.style.rotate = collapsed ? "180deg" : "0deg";
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        const collapsed = tocRoot.dataset.collapsed === "true";
+        setCollapsed(!collapsed);
+      });
+
+      reopenBtn.addEventListener("click", () => {
+        setCollapsed(false);
+      });
+    }
+
+    function initTOC() {
+      buildTOC();
+      initScrollSpy();
+      initToggle();
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initTOC);
+    } else {
+      initTOC();
+    }
+  })();
+</script>

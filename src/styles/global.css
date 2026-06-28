@@ -41,3 +41,18 @@
 .katex {
   color: var(--foreground);
 }
+
+/* ===== TOC 侧边栏折叠动画 ===== */
+.toc-root[data-collapsed="true"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  pointer-events: none;
+}
+
+/* ===== TOC 链接高亮 ===== */
+.toc-link.active {
+  color: var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+  font-weight: 500;
+}

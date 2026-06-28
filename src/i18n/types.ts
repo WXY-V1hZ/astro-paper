@@ -68,4 +68,9 @@ export interface UIStrings {
     message: string;
     goHome: string;
   };
+  toc: {
+    label: string;
+    collapse: string;
+    expand: string;
+  };
 }
