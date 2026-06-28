@@ -38,18 +38,16 @@ export function remarkResolveMdLinks() {
       // 计算目录段（相对 content/posts/ 的路径）
       const relDir = path.relative(
         path.resolve(process.cwd(), BLOG_PATH),
-        path.dirname(targetPath),
+        path.dirname(targetPath)
       );
 
       const dirSegments =
-        relDir === ""
-          ? []
-          : relDir.split(path.sep).map(s => slugifyStr(s));
+        relDir === "" ? [] : relDir.split(path.sep).map(s => slugifyStr(s));
 
       const urlPath = slug
         ? [...dirSegments, slug].join("/")
         : [...dirSegments, slugifyStr(path.basename(targetPath, ".md"))].join(
-            "/",
+            "/"
           );
 
       node.url = `/posts/${urlPath}/`;
