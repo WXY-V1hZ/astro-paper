@@ -17,7 +17,7 @@ if [ -z "$CHANGED" ]; then
   exit 0
 fi
 
-echo "📝 填写 commit 信息（vim）..."
-GIT_EDITOR=vim git commit
+echo "📝 填写 commit 信息（zeditor）..."
+GIT_EDITOR="zeditor --wait" git commit
 
 echo "✅ 提交完成！"

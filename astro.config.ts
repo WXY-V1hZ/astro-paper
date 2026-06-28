@@ -17,6 +17,7 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import { rehypeFigure } from "./src/utils/rehype-figure";
 import config from "./astro-paper.config";
 
 import remarkMath from "remark-math";
@@ -45,7 +46,7 @@ export default defineConfig({
         [remarkCollapse, { test: "Table of contents" }],
         remarkMath,
       ],
-      rehypePlugins: [rehypeCallouts, rehypeKatex],
+      rehypePlugins: [rehypeCallouts, rehypeKatex, rehypeFigure],
     }),
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },
@@ -67,7 +68,7 @@ export default defineConfig({
       name: "Google Sans Code",
       cssVariable: "--font-google-sans-code",
       provider: fontProviders.google(),
-      fallbacks: ["monospace"],
+      fallbacks: ["Noto Sans SC", "monospace"],
       weights: [300, 400, 500, 600, 700],
       styles: ["normal", "italic"],
       formats: ["woff", "ttf"],

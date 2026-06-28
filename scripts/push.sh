@@ -16,7 +16,7 @@ if [ -z "$CHANGED" ]; then
   echo "ℹ️  没有新的变更需要提交"
 else
   echo "📝 填写 commit 信息（vim）..."
-  GIT_EDITOR=vim git commit
+  GIT_EDITOR="zeditor --wait" git commit
 fi
 
 echo "🚀 推送..."
