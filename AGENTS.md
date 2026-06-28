@@ -75,6 +75,17 @@ frontmatter 字段:
 - `slug` (可选) — 自定义 URL 路径
 - `modDatetime` (可选) — 修改日期
 
+### 代码块文件标注
+
+文章中引用源代码的代码块，在开头的 ``` 后添加 `file="<文件路径>"`：
+
+```markdown
+```ts file="src/utils/postFilter.ts"
+export function postFilter({ data }) { ...
+```
+
+这样读者能直接知道代码来自哪个文件。diff 或命令行片段不需要标注。
+
 ## 命令
 
 ```bash

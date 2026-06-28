@@ -72,7 +72,5 @@ export default {
   },
   toc: {
     label: "Table of Contents",
-    collapse: "Collapse",
-    expand: "Expand",
   },
 } satisfies UIStrings;

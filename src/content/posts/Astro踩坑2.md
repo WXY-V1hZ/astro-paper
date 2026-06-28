@@ -16,7 +16,7 @@ tags: ["Astro", "Debug"]
 
 看 AstroPaper 的 `postFilter.ts` 中的文章过滤逻辑：
 
-```ts
+```ts file="src/utils/postFilter.ts"
 export function postFilter({ data }) {
   const isPublishTimePassed =
     Date.now() >
@@ -59,7 +59,7 @@ export function postFilter({ data }) {
 
 在 `postFilter.ts` 中用 dayjs 配合站点配置的时区来解析日期：
 
-```ts
+```ts file="src/utils/postFilter.ts"
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";

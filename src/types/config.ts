@@ -48,6 +48,8 @@ interface FeaturesConfig {
   showNavArchivesIcon?: boolean;
   /** Show back button on post detail pages. Defaults to true. */
   showBackButton?: boolean;
+  /** Show table of contents sidebar on post detail pages. Defaults to true. */
+  showTableOfContents?: boolean;
   /** "Edit page" link shown on post detail pages. */
   editPost?:
     | {

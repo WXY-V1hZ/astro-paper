@@ -72,7 +72,5 @@ export default {
   },
   toc: {
     label: "目录",
-    collapse: "收起目录",
-    expand: "展开目录",
   },
 } satisfies UIStrings;

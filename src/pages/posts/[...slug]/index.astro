@@ -161,7 +161,7 @@ const ogImage = ogImageUrl
     <AdjacentPostNav {prevPost} {nextPost} />
   </main>
 
-  <TableOfContents />
+  {config.features.showTableOfContents && <TableOfContents />}
   <Footer />
 </PostLayout>
 

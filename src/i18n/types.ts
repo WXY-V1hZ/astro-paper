@@ -70,7 +70,5 @@ export interface UIStrings {
   };
   toc: {
     label: string;
-    collapse: string;
-    expand: string;
   };
 }

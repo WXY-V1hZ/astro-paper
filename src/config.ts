@@ -32,6 +32,7 @@ const config: ResolvedAstroPaperConfig = {
     showArchives: userConfig.features?.showArchives ?? true,
     showNavArchivesIcon: userConfig.features?.showNavArchivesIcon ?? true,
     showBackButton: userConfig.features?.showBackButton ?? true,
+    showTableOfContents: userConfig.features?.showTableOfContents ?? true,
     editPost: userConfig.features?.editPost ?? { enabled: false },
     search: userConfig.features?.search ?? "pagefind",
   },
