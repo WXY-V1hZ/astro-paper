@@ -18,6 +18,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { rehypeFigure } from "./src/utils/rehype-figure";
+import { remarkResolveMdLinks } from "./src/utils/remark-resolve-md-links";
 import config from "./astro-paper.config";
 
 import remarkMath from "remark-math";
@@ -45,6 +46,7 @@ export default defineConfig({
         remarkToc,
         [remarkCollapse, { test: "Table of contents" }],
         remarkMath,
+        remarkResolveMdLinks,
       ],
       rehypePlugins: [rehypeCallouts, rehypeKatex, rehypeFigure],
     }),
