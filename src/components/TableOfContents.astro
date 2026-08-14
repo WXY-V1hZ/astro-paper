@@ -20,17 +20,17 @@ const t = useTranslations(locale);
 
 <aside
   id="table-of-contents"
-  class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 overflow-y-auto rounded-xl p-4 backdrop-blur-sm xl:block"
+  class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 flex-col overflow-hidden rounded-xl p-4 backdrop-blur-sm xl:flex"
   aria-label={t.toc.label}
   style="left: calc(50% + 384px + 1.5rem)"
 >
   <div
-    class="border-border mb-2 flex items-center justify-between border-b pb-2"
+    class="border-border mb-2 flex shrink-0 items-center justify-between border-b pb-2"
   >
     <span class="text-foreground text-sm font-semibold">{t.toc.label}</span>
   </div>
 
-  <nav id="toc-body">
+  <nav id="toc-body" class="flex-1 overflow-y-auto overscroll-contain">
     <ol class="m-0 list-none p-0" id="toc-list"></ol>
   </nav>
 </aside>
