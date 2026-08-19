@@ -75,6 +75,13 @@ frontmatter 字段:
 - `slug` (可选) — 自定义 URL 路径
 - `modDatetime` (可选) — 修改日期
 
+编写 frontmatter 时遵循：
+
+- 每篇文章都必须有 frontmatter，缺少 `title`、`description`、`pubDatetime` 会导致构建失败
+- `slug` 使用小写英文 kebab-case（如 `jvm-class-loading`），新增文章前先确认不与已有 slug 重复
+- `pubDatetime` 写文章完成当天的日期；`modDatetime` 在修改文章内容后更新
+- `tags` 使用与内容匹配的标签，并参考同系列文章的标签习惯（如 backend-learning 系列统一用 `["Java", "后端"]`、`["MySQL", "后端"]`）
+
 ### 代码块文件标注
 
 文章中引用源代码的代码块，在开头的 ``` 后添加 `file="<文件路径>"`：
