@@ -70,5 +70,6 @@ export interface UIStrings {
   };
   toc: {
     label: string;
+    footnotes: string;
   };
 }

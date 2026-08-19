@@ -3,7 +3,7 @@
  * TableOfContents.astro
  *
  * 文章侧边栏目录组件。
- * 从 #article 中提取 h2/h3 标题构建目录树，支持滚动高亮。
+ * 从 #article 中提取 h2 至 h6 标题构建目录树，支持滚动高亮。
  * 用 position: fixed 固定在右侧，文章内容保持原居中布局。
  *
  * 使用方式（在文章详情页中）：
@@ -22,6 +22,7 @@ const t = useTranslations(locale);
   id="table-of-contents"
   class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 flex-col overflow-hidden rounded-xl p-4 backdrop-blur-sm xl:flex"
   aria-label={t.toc.label}
+  data-footnotes-label={t.toc.footnotes}
   style="left: calc(50% + 384px + 1.5rem)"
 >
   <div
@@ -39,15 +40,19 @@ const t = useTranslations(locale);
   (function () {
     "use strict";
 
+    const headingSelector = "h2, h3, h4, h5, h6";
+
     function buildTOC() {
       const article = document.getElementById("article");
       const tocList = document.getElementById("toc-list");
       const tocRoot = document.getElementById("table-of-contents");
       if (!article || !tocList || !tocRoot) return;
 
-      const headings = Array.from(article.querySelectorAll("h2, h3")).filter(
-        h => h.id
-      );
+      const footnotesLabel = tocRoot.dataset.footnotesLabel;
+
+      const headings = Array.from(
+        article.querySelectorAll(headingSelector)
+      ).filter(h => h.id);
 
       if (headings.length < 2) {
         tocRoot.style.display = "none";
@@ -59,15 +64,19 @@ const t = useTranslations(locale);
       for (const heading of headings) {
         const li = document.createElement("li");
         li.className = "m-0 leading-[1.4]";
-        if (heading.tagName === "H3") {
-          li.style.paddingLeft = "1rem";
+        const headingLevel = Number(heading.tagName.slice(1));
+        if (headingLevel > 2) {
+          li.style.paddingLeft = `${headingLevel - 2}rem`;
         }
 
         const a = document.createElement("a");
         a.className =
           "toc-link block px-2 py-[0.2rem] text-[0.8125rem] text-muted-foreground no-underline rounded overflow-hidden text-ellipsis whitespace-nowrap transition-colors hover:text-foreground hover:bg-muted";
         a.href = "#" + heading.id;
-        a.textContent = heading.textContent.replace(/\s*#$/, "");
+        a.textContent =
+          heading.id === "footnote-label"
+            ? footnotesLabel
+            : heading.textContent.replace(/\s*#$/, "");
 
         a.addEventListener("click", e => {
           e.preventDefault();
@@ -89,9 +98,9 @@ const t = useTranslations(locale);
       const tocList = document.getElementById("toc-list");
       if (!article || !tocList) return;
 
-      const headings = Array.from(article.querySelectorAll("h2, h3")).filter(
-        h => h.id
-      );
+      const headings = Array.from(
+        article.querySelectorAll(headingSelector)
+      ).filter(h => h.id);
       if (!headings.length) return;
 
       const observer = new IntersectionObserver(

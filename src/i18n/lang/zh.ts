@@ -72,5 +72,6 @@ export default {
   },
   toc: {
     label: "目录",
+    footnotes: "脚注",
   },
 } satisfies UIStrings;

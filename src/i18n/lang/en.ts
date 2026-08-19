@@ -72,5 +72,6 @@ export default {
   },
   toc: {
     label: "Table of Contents",
+    footnotes: "Footnotes",
   },
 } satisfies UIStrings;

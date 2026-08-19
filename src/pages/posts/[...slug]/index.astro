@@ -218,6 +218,80 @@ const ogImage = ogImageUrl
   }
   addHeadingLinks();
 
+  function initFootnotePreviews() {
+    const article = document.getElementById("article");
+    if (!article || article.dataset.footnotePreviewsInitialized) return;
+
+    const references = article.querySelectorAll("a[data-footnote-ref]");
+    if (!references.length) return;
+    article.dataset.footnotePreviewsInitialized = "true";
+
+    window.__cleanupFootnotePreview?.();
+    const preview = document.createElement("div");
+    preview.id = "footnote-preview";
+    preview.className = "footnote-preview hidden";
+    preview.setAttribute("role", "tooltip");
+    document.body.appendChild(preview);
+
+    function hidePreview() {
+      preview.classList.add("hidden");
+      preview.replaceChildren();
+    }
+
+    function showPreview(reference) {
+      const targetId = decodeURIComponent(reference.hash.slice(1));
+      const footnote = targetId && document.getElementById(targetId);
+      if (!footnote) return;
+
+      const content = document.createElement("div");
+      content.replaceChildren(
+        ...Array.from(footnote.childNodes, node => node.cloneNode(true))
+      );
+      content
+        .querySelectorAll("[data-footnote-backref]")
+        .forEach(backref => backref.remove());
+      preview.replaceChildren(content);
+      preview.classList.remove("hidden");
+
+      const rect = reference.getBoundingClientRect();
+      const margin = 12;
+      const maxLeft = window.innerWidth - preview.offsetWidth - margin;
+      const preferredLeft =
+        rect.left + rect.width / 2 - preview.offsetWidth / 2;
+      const left = Math.max(margin, Math.min(preferredLeft, maxLeft));
+      const preferredTop = rect.top - preview.offsetHeight - margin;
+      const top =
+        preferredTop >= margin
+          ? preferredTop
+          : Math.min(
+              window.innerHeight - preview.offsetHeight - margin,
+              rect.bottom + margin
+            );
+
+      preview.style.left = `${left}px`;
+      preview.style.top = `${top}px`;
+    }
+
+    for (const reference of references) {
+      const describedBy = reference.getAttribute("aria-describedby");
+      reference.setAttribute(
+        "aria-describedby",
+        [describedBy, "footnote-preview"].filter(Boolean).join(" ")
+      );
+      reference.addEventListener("mouseenter", () => showPreview(reference));
+      reference.addEventListener("mouseleave", hidePreview);
+      reference.addEventListener("focus", () => showPreview(reference));
+      reference.addEventListener("blur", hidePreview);
+    }
+
+    window.addEventListener("scroll", hidePreview, { passive: true });
+    window.__cleanupFootnotePreview = () => {
+      window.removeEventListener("scroll", hidePreview);
+      preview.remove();
+    };
+  }
+  initFootnotePreviews();
+
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
     const codeBlocks = Array.from(document.querySelectorAll("pre"));

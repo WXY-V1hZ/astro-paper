@@ -95,6 +95,10 @@
     }
   }
 
+  .footnote-preview {
+    @apply border-border bg-background text-foreground pointer-events-none fixed z-50 max-w-sm rounded-lg border px-3 py-2 text-sm leading-relaxed shadow-lg;
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply outline-border flex border bg-(--shiki-light-bg) text-(--shiki-light) [&_span]:text-(--shiki-light);
