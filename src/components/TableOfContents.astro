@@ -23,12 +23,22 @@ const t = useTranslations(locale);
   class="toc-root bg-background/80 fixed top-24 z-30 hidden max-h-[calc(100vh-6rem)] w-65 flex-col overflow-hidden rounded-xl p-4 backdrop-blur-sm xl:flex"
   aria-label={t.toc.label}
   data-footnotes-label={t.toc.footnotes}
+  data-expand-label={t.toc.expand}
+  data-collapse-label={t.toc.collapse}
   style="left: calc(50% + 384px + 1.5rem)"
 >
   <div
     class="border-border mb-2 flex shrink-0 items-center justify-between border-b pb-2"
   >
-    <span class="text-foreground text-sm font-semibold">{t.toc.label}</span>
+    <div class="flex items-center gap-2">
+      <span class="text-foreground text-sm font-semibold">{t.toc.label}</span>
+      <button
+        id="toc-toggle"
+        class="text-muted-foreground hover:text-foreground hidden text-xs transition-colors"
+        type="button"
+        aria-expanded="false"
+      ></button>
+    </div>
   </div>
 
   <nav id="toc-body" class="flex-1 overflow-y-auto overscroll-contain">
@@ -46,9 +56,12 @@ const t = useTranslations(locale);
       const article = document.getElementById("article");
       const tocList = document.getElementById("toc-list");
       const tocRoot = document.getElementById("table-of-contents");
-      if (!article || !tocList || !tocRoot) return;
+      const tocToggle = document.getElementById("toc-toggle");
+      if (!article || !tocList || !tocRoot || !tocToggle) return;
 
       const footnotesLabel = tocRoot.dataset.footnotesLabel;
+      const expandLabel = tocRoot.dataset.expandLabel;
+      const collapseLabel = tocRoot.dataset.collapseLabel;
 
       const headings = Array.from(
         article.querySelectorAll(headingSelector)
@@ -60,11 +73,22 @@ const t = useTranslations(locale);
       }
 
       tocList.innerHTML = "";
+      const hasDeepHeadings = headings.some(
+        heading => Number(heading.tagName.slice(1)) >= 4
+      );
+
+      tocToggle.classList.toggle("hidden", !hasDeepHeadings);
+      tocToggle.setAttribute("aria-expanded", "false");
+      tocToggle.textContent = expandLabel;
 
       for (const heading of headings) {
         const li = document.createElement("li");
         li.className = "m-0 leading-[1.4]";
         const headingLevel = Number(heading.tagName.slice(1));
+        if (headingLevel >= 4) {
+          li.hidden = true;
+          li.dataset.deepHeading = "true";
+        }
         if (headingLevel > 2) {
           li.style.paddingLeft = `${headingLevel - 2}rem`;
         }
@@ -91,6 +115,18 @@ const t = useTranslations(locale);
         li.appendChild(a);
         tocList.appendChild(li);
       }
+
+      tocToggle.onclick = () => {
+        const isExpanded = tocToggle.getAttribute("aria-expanded") === "true";
+        const nextExpanded = !isExpanded;
+
+        for (const item of tocList.querySelectorAll("li[data-deep-heading]")) {
+          item.hidden = !nextExpanded;
+        }
+
+        tocToggle.setAttribute("aria-expanded", String(nextExpanded));
+        tocToggle.textContent = nextExpanded ? collapseLabel : expandLabel;
+      };
     }
 
     function initScrollSpy() {

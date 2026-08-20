@@ -73,5 +73,7 @@ export default {
   toc: {
     label: "Table of Contents",
     footnotes: "Footnotes",
+    expand: "Show more",
+    collapse: "Show less",
   },
 } satisfies UIStrings;

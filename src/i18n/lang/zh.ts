@@ -73,5 +73,7 @@ export default {
   toc: {
     label: "目录",
     footnotes: "脚注",
+    expand: "展开更多",
+    collapse: "收起",
   },
 } satisfies UIStrings;
