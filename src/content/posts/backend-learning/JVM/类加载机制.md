@@ -1,0 +1,187 @@
+---
+title: JVM 类加载机制
+description: 类加载流程、类加载器、双亲委派与 SPI 打破双亲委派等知识点整理
+pubDatetime: 2026-08-19
+slug: jvm-class-loading
+tags: ["Java", "后端", "JVM"]
+---
+
+## 类加载的流程
+
+- 加载：读取一个 Class 文件，将类的元数据存在方法区，在堆中创建类的 `java.lang.Class` 对象
+- 连接 [^1]
+  - 验证：加载时验证文件格式、连接阶段的元数据和字节码的验证、可以发生在初始化前也可以发生在初始化后的符号引用验证![Java类的生命周期](pictures/Pasted%20image%2020260819161813.png)
+  - 准备：为类中的静态成员变量赋默认值，存入方法区![](pictures/Pasted%20image%2020260819162439.png)
+  - 解析：对于 A 中调用 B 的情况，在非多态场景（B 是一个具体实现）下，连接阶段就可以直接将符号引用替换为直接引用，称为「静态解析」；在多态场景下（B 是一个抽象类或接口），B 的具体实现并不明确，就需要等到真正调用的时候，从虚拟机栈中获取到具体的类型信息，才能将符号引用替换为直接引用，称为「动态解析」 ![静态解析与动态解析](pictures/Pasted%20image%2020260819162715.png)
+- 初始化：执行类中主动的资源初始化操作——成员变量赋值、静态变量的赋值、静态代码块（构造函数要显式调用 new 才会执行，不属于类加载的初始化阶段）
+
+只有加载的读取二进制流部分和初始化部分能够被开发者控制，其他都由 JVM 控制![用户能够自定义的部分](pictures/Pasted%20image%2020260819164501.png)
+
+## 类加载器
+
+![类加载器的分类](pictures/Pasted%20image%2020260819170721.png)
+
+### 双亲委派
+
+![](pictures/Pasted%20image%2020260819180034.png)
+
+类加载器有属于自己的命名空间，不同类加载器加载同一限定名得到的 Class 会被判定为不同的类，下面这段代码中 `instanceof` 返回 `false` 能够印证这一特性
+
+```java file="Main.java"
+// 自定义一个ClassLoader，重写loadClass方法
+ClassLoader myLoader = new ClassLoader() {
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        try {
+            String fileName = name.substring(name.lastIndexOf('.') + 1) + ".class";
+            byte[] b;
+            try (InputStream is = getClass().getResourceAsStream(fileName)) {
+                if (is == null) return super.loadClass(name);
+                b = is.readAllBytes();
+            }
+            return defineClass(name, b, 0, b.length);
+        } catch (Exception e) {
+            throw new ClassNotFoundException(name);
+        }
+    }
+};
+Object obj = myLoader.loadClass("com.v1hz.learnjvm.A").getConstructor().newInstance();
+System.out.println(obj.getClass());
+
+// 前者由自定义的ClassLoader加载，后者由AppClassLoader加载，所以输出false
+System.out.println(obj instanceof com.v1hz.learnjvm.A);
+```
+
+双亲委派机制保证以下两点
+
+- 保证核心类库在任何场景下都是官方实现
+- 保证类在 JVM 全局唯一
+
+具体实现中 ClassLoader 之间并不是继承关系，而是通过 parent 变量定义父加载器，即通过组合的形式来组织。以下为 ClassLoader 的 loadClass 方法源码，重点看注释部分：
+
+```java file="ClassLoader.java"
+// ClassLoader.java
+protected Class<?> loadClass(String name, boolean resolve)
+    throws ClassNotFoundException
+{
+    synchronized (getClassLoadingLock(name)) {
+        Class<?> c = findLoadedClass(name);  // 查询目标类是否已经被加载过
+        if (c == null) {
+            long t0 = System.nanoTime();
+            try {
+                // 优先委托父加载器来加载目标类，如果parent为null，则父加载器为BootstrapClassLoader
+                if (parent != null) {
+                    c = parent.loadClass(name, false);
+                } else {
+                    c = findBootstrapClassOrNull(name);
+                }
+            } catch (ClassNotFoundException e) {
+            // 父加载器无法加载，再由自己加载目标类
+            if (c == null) {
+                c = findClass(name);
+                PerfCounter.getParentDelegationTime().addTime(t1 - t0);
+                PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
+                PerfCounter.getFindClasses().increment();
+            }
+        }
+        if (resolve) {
+            resolveClass(c);
+        }
+        return c;
+    }
+}
+```
+
+### 破坏双亲委派
+
+#### 重写 loadClass 方法
+
+上文中通过重写 loadClass 方法就已经实现了对双亲委派模型的破坏，因为双亲委派的逻辑就存在于 loadClass 方法中 [^2]。在实际开发中，JVM 推荐用户重写 findClass 方法而不是 loadClass 方法，以此来遵守双亲委派模型。
+
+将上文的代码改为重写 findClass 方法，就不会破坏双亲委派模型：
+
+```java file="Main.java"
+// 重写findClass方法
+ClassLoader myLoader = new ClassLoader() {
+    @Override
+    public Class<?> findClass(String name) throws ClassNotFoundException { /*...*/ }
+};
+// 输出true
+System.out.println(obj instanceof com.v1hz.learnjvm.A);
+```
+
+#### SPI 机制
+
+以 JDBC 的数据库驱动管理器 DriverManager 为例，其目标是让用户只需要改动 URL 字符串就能连接多个数据库，所以 DriverManager 内部需要遍历当前应用拥有的所有数据库驱动，然后判断这个 Driver 能否处理这个 URL。
+
+但是 DriverManager 是 JDK 中的类，由 BootstrapClassLoader 加载 [^3]，而各个数据库厂商实现的 Driver 是引入的第三方依赖，由 AppClassLoader 加载。父加载器无法看见子加载器加载的类，要让 DriverManager 看见 AppClassLoader 加载的类，就需要引入 **SPI 机制**，绕过双亲委派的单向可见性。
+
+下面是 DriverManager 中加载所有 Driver 的部分源码，以及实现 SPI 机制的 ServiceLoader 的 load 方法源码，重点看注释部分：
+
+```java file="DriverManager.java"
+// DriverManager.java
+private static void ensureDriversInitialized() {
+    if (driversInitialized) {
+        return;
+    }
+    synchronized (lockForInitDrivers) {
+        if (driversInitialized) {  // 双重检查锁
+            return;
+        }
+        String drivers;
+        try {
+            drivers = AccessController.doPrivileged(new PrivilegedAction<String>() {
+                public String run() {
+                    return System.getProperty(JDBC_DRIVERS_PROPERTY);
+                }
+            });
+        } catch (Exception ex) {
+            drivers = null;
+        }
+        AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            public Void run() {
+                // 通过 SPI 查找所有 java.sql.Driver 接口的实现
+                ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);
+                // 强制触发所有 JDBC Driver 的加载和初始化
+                Iterator<Driver> driversIterator = loadedDrivers.iterator();
+                try {
+                    while (driversIterator.hasNext()) {
+                        driversIterator.next();
+                    }
+                } catch (Throwable t) {
+                }
+                return null;
+            }
+        });
+        if (drivers != null && !drivers.isEmpty()) {
+            String[] driversList = drivers.split(":");
+            for (String aDriver : driversList) {
+                try {
+                    Class.forName(aDriver, true, ClassLoader.getSystemClassLoader());
+                } catch (Exception ex) {
+                }
+            }
+        }
+        driversInitialized = true;
+        println("JDBC DriverManager initialized");
+    }
+}
+```
+
+```java file="ServiceLoader.java"
+// ServiceLoader.java
+@CallerSensitive
+public static <S> ServiceLoader<S> load(Class<S> service) {
+    // 获取当前线程的上下文类加载器，通常是 AppClassLoader
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    return new ServiceLoader<>(Reflection.getCallerClass(), service, cl);
+}
+```
+
+可以看到 SPI 的实现是通过获取当前线程的 ClassLoader 来拿到 AppClassLoader 的，从而实现让父加载器委派子加载器加载类。
+
+[^1]: 验证包含多个步骤，分散在不同的阶段，写在连接部分只是方便展示；解析阶段可以发生在初始化前，也可以发生在初始化后。
+
+[^2]: 由于在推出双亲委派模型的时候市场上已经有大量破坏双亲委派模型的代码了，所以 JVM 考虑到向下兼容，最终没有把 loadClass 改为 final 方法，而是增加了 findClass 方法作为补救措施。
+
+[^3]: Java9+ 中将 ExtClassLoader 改为了 PlatformClassLoader，这里的 DriverManager 也从由 BootstrapClassLoader 加载改为了由 PlatformClassLoader 加载。
