@@ -9,6 +9,7 @@ tags: ["图床", "写作"]
 ## 创建 GitHub 仓库
 
 在 GitHub 账号中新建一个仓库，公开，名字随意
+
 ![](https://fastly.jsdelivr.net/gh/V1hZ/img@main/PicGo/202501291638347.png)
 
 ## 创建 GitHub 的 token

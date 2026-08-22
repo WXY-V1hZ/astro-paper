@@ -61,29 +61,29 @@ Java 内存模型、JVM 内存结构、硬件内存模型的映射关系抽象�
 下面的代码运行后会一直空转，体现了可见性问题：
 
 ```java file="Main.java"
-static int a = 1;  
-public static void main(String[] args) throws InterruptedException {  
-    // 线程1 
+static int a = 1;
+public static void main(String[] args) throws InterruptedException {
+    // 线程1
     // 一直空转直到读到 a 为 2
-    Thread t1 = new Thread(() -> { while (a != 2) {} });  
+    Thread t1 = new Thread(() -> { while (a != 2) {} });
     // 线程2
     // 将 a 赋值为2
-    Thread t2 = new Thread(() -> a = 2);  
-    
+    Thread t2 = new Thread(() -> a = 2);
+
     // 启动两个线程并阻塞等待其结束
-    t1.start();  
-    Thread.sleep(1000);  
-    t2.start();  
-    t1.join();  
-    t2.join();  
+    t1.start();
+    Thread.sleep(1000);
+    t2.start();
+    t1.join();
+    t2.join();
 }
 ```
 
 解决方案：
 
 1. `volatile`：`volatile` 保证以下两点
-    1. 被其修饰的变量被读写时，总是读写主存而不是工作内存
-    2. 禁止 volatile 变量和之前的语句重排
+   1. 被其修饰的变量被读写时，总是读写主存而不是工作内存
+   2. 禁止 volatile 变量和之前的语句重排
 2. `synchronized`：退出同步代码块时，会将同步代码块内修改的变量刷入主存，后续用同一个锁再进入时，会让当前线程的工作内存失效，重新读取主存（即监视器锁规则的 Happends-Before，见下文）
 
 ```java file="Main.java"
@@ -93,16 +93,16 @@ static volatile int a = 1;
 
 // 2
 static int a = 1;
-Thread t1 = new Thread(new Runnable() {  
-    @Override  
-    public void run() {  
-        while (a != 2) {  
-            synchronized (this) {  
+Thread t1 = new Thread(new Runnable() {
+    @Override
+    public void run() {
+        while (a != 2) {
+            synchronized (this) {
                 // 进入同步代码块，重新读取主存
-                int b = a + 1;  
-            }  
-        }  
-    }  
+                int b = a + 1;
+            }
+        }
+    }
 });
 ```
 
