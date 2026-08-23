@@ -12,7 +12,8 @@ async function renderMermaid() {
   mermaid.initialize({
     startOnLoad: false,
     securityLevel: "strict",
-    theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
+    theme:
+      document.documentElement.dataset.theme === "dark" ? "dark" : "default",
   });
 
   for (const code of blocks) {

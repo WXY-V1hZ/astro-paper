@@ -122,14 +122,14 @@ class ObjectMonitor {
 }
 ```
 
-| ObjectMonitor         | 职责                 | Lock Record               |
-| --------------------- | ------------------ | ------------------------- |
-| `_header`             | **保存原始 Mark Word** | `_displaced_header`       |
-| `_owner`              | **标识持锁线程**         | Lock Record 在栈上，栈是线程私有的   |
-| `_recursions`         | **记录重入次数**         | 通过多个 Lock Record 栈式结构隐式表示 |
-| `_EntryList` + `_cxq` | **等待队列**           | 无                         |
-| `_WaitSet`            | **wait/notify 支持** | 不支持                       |
-| `_succ`               | **继任者线程**          | 无                         |
+| ObjectMonitor         | 职责                   | Lock Record                           |
+| --------------------- | ---------------------- | ------------------------------------- |
+| `_header`             | **保存原始 Mark Word** | `_displaced_header`                   |
+| `_owner`              | **标识持锁线程**       | Lock Record 在栈上，栈是线程私有的    |
+| `_recursions`         | **记录重入次数**       | 通过多个 Lock Record 栈式结构隐式表示 |
+| `_EntryList` + `_cxq` | **等待队列**           | 无                                    |
+| `_WaitSet`            | **wait/notify 支持**   | 不支持                                |
+| `_succ`               | **继任者线程**         | 无                                    |
 
 锁对象头中的 Mark Word 的转换如图：
 
